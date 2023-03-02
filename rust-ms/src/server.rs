@@ -1,5 +1,3 @@
-//https://github.com/letsgetrusty/grpc_example/blob/master/src/server.rs
-
 use tonic::{transport::Server, Request, Response, Status};
 
 use payments::bitcoin_server::{Bitcoin, BitcoinServer};

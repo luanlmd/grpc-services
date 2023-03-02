@@ -1,19 +1,21 @@
-const grpc = require('grpc')
-const protoLoader = require('@grpc/proto-loader')
-const path = require('path')
+const grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
 
-const protoObject = protoLoader.loadSync(path.resolve(__dirname, '../proto/notes.proto'))
-const NotesDefinition = grpc.loadPackageDefinition(protoObject)
+const packageDefinition = protoLoader.loadSync('../proto/payments.proto', {
+  keepCase: true,
+  longs: String,
+  enums: String,
+  defaults: true,
+  oneofs: true
+ })
 
-const notes = [
-  { id: 1, title: 'Note 1', description: 'Content 1' },
-  { id: 2, title: 'Note 2', description: 'Content 2' }
-]
-
+const definition = grpc.loadPackageDefinition(packageDefinition).payments;
+console.log(definition)
 
 const server = new grpc.Server()
-server.addService(NotesDefinition.NoteService.service, { List, Find })
+server.addService(definition.Bitcoin.service, { SendPayment: (request, response) => { console.log('Got a Request'); response (null, { successful:true, message:'sent :)'}) } });
+server.bindAsync('0.0.0.0:50051', grpc.ServerCredentials.createInsecure(), () => {
+  server.start();
+});
 
-server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
-server.start()
 console.log('Listening')
