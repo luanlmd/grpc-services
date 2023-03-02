@@ -1,14 +1,14 @@
 # Deno:
-- run deno server: ./server.sh
-- run deno client: ./client.sh
+- run server: ./server.sh
+- run client: ./client.sh
 
 # Node:
-- run node server: node src/server.js
-- run node client: node src/client.js
+- run server: node src/server.js
+- run client: node src/client.js
 
 # Rust:
-- run rust server: cargo run --bin payments-server
-- run rust client: cargo run --bin payments-client
+- run server: cargo run --bin payments-server
+- run client: cargo run --bin payments-client
 
 # References:
 - deno: https://deno.land/x/grpc_basic@0.4.6
