@@ -1,4 +1,6 @@
-use tonic::{{transport::Server, Request, Response, Status}};
+//https://github.com/letsgetrusty/grpc_example/blob/master/src/server.rs
+
+use tonic::{transport::Server, Request, Response, Status};
 
 use payments::bitcoin_server::{Bitcoin, BitcoinServer};
 use payments::{BtcPaymentResponse, BtcPaymentRequest};
@@ -18,11 +20,11 @@ impl Bitcoin for BitcoinService {
     ) -> Result<Response<BtcPaymentResponse>, Status> {
         println!("Got a request: {:?}", request);
 
-        let req: BtcPaymentRequest = request.into_inner();
+        let req = request.into_inner();
 
-        let reply = payments::BtcPaymentResponse {
+        let reply = BtcPaymentResponse {
             successful: true,
-            message: format!("Sent {} BTC to {}.", req.amount, req.to_addr).into(),
+            message: format!("Sent {}BTC to {}.", req.amount, req.to_addr).into(),
         };
 
         Ok(Response::new(reply))
@@ -30,14 +32,14 @@ impl Bitcoin for BitcoinService {
 }
 
 #[tokio::main]
-
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "0.0.0.0:50051".parse()?;
-    let btc_service: BitcoinService = BitcoinService::default();
+    let btc_service = BitcoinService::default();
 
     Server::builder()
         .add_service(BitcoinServer::new(btc_service))
         .serve(addr)
         .await?;
+
     Ok(())
 }
