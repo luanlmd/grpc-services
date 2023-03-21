@@ -4,7 +4,8 @@ package payments;
 service PostsService {
   rpc Create(CreatePostRequest) returns (StatusResponse);
   rpc Find(FindPostRequest) returns (stream Post);
-  rpc List(Empty) returns (stream Post);
+  rpc ListStream(Empty) returns (stream Post);
+  rpc List(Empty) returns (Posts);
 }
 
 message Post {
@@ -24,6 +25,8 @@ message StatusResponse {
   bool success = 1;
   string message = 2;
 }
+
+message Posts { repeated Post posts = 1; }
 
 message FindPostRequest { string query = 1; }
 

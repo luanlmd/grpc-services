@@ -4,7 +4,8 @@
 export interface PostsService {
   Create(request: CreatePostRequest): Promise<StatusResponse>;
   Find(request: FindPostRequest): AsyncGenerator<Post>;
-  List(request: Empty): AsyncGenerator<Post>;
+  ListStream(request: Empty): AsyncGenerator<Post>;
+  List(request: Empty): Promise<Posts>;
 }
 
 export interface Post {
@@ -23,6 +24,10 @@ export interface CreatePostRequest {
 export interface StatusResponse {
   success?: boolean;
   message?: string;
+}
+
+export interface Posts {
+  posts?: Post[];
 }
 
 export interface FindPostRequest {

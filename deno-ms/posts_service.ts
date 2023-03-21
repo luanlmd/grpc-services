@@ -1,5 +1,5 @@
 import { GrpcServer } from "https://deno.land/x/grpc_basic@0.4.7/server.ts";
-import { CreatePostRequest, Empty, FindPostRequest, Post, PostsService, StatusResponse } from "./posts.d.ts";
+import { CreatePostRequest, Empty, FindPostRequest, Posts, Post, PostsService, StatusResponse } from "./posts.d.ts";
 
 const protoPath = new URL("../proto/posts.proto", import.meta.url);
 const protoFile = await Deno.readTextFile(protoPath);
@@ -29,7 +29,11 @@ server.addService<PostsService>(protoFile, {
     return response;
   },
 
-  async *List(request: Empty): AsyncGenerator<Post> {
+  async List(request: Empty): Promise<Posts> {
+    return { posts };
+  },
+
+  async *ListStream(request: Empty): AsyncGenerator<Post> {
     for (const post of posts) {
       yield post;
     }

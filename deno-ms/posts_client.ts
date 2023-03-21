@@ -10,8 +10,8 @@ const client = getClient<PostsService>({
   serviceName: "PostsService",
 });
 
-console.info('List Posts')
-for await (const reply of client.List({})) {
+console.info('List Posts Stream')
+for await (const reply of client.ListStream({})) {
   console.log(reply);
 }
 
@@ -28,5 +28,8 @@ const req = { query : "Hey" } as FindPostRequest;
 for await (const reply of client.Find(req)) {
   console.log(reply);
 }
+
+console.info('List All Posts')
+console.log(await client.List({}));
 
 client.close();
