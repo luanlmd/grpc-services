@@ -36,11 +36,8 @@ server.addService<PostsService>(protoFile, {
   },
 
   async *Find(request: FindPostRequest): AsyncGenerator<Post> {
-    // const filteredPosts = posts.find((post) => post?.title?.includes(request.query?? ''));
-    // for (const post of filteredPosts) {
-    //   yield post;
-    // }
-    for (const post of posts) {
+    const filteredPosts = posts.filter((post) => post?.title?.includes(request.query?? ''));
+    for (const post of filteredPosts) {
       yield post;
     }
   }

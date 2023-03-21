@@ -10,6 +10,12 @@ const client = getClient<PostsService>({
   serviceName: "PostsService",
 });
 
+console.info('List Posts')
+for await (const reply of client.List({})) {
+  console.log(reply);
+}
+
+console.info('Create Post')
 const newPost = {
   title: "Hey Title",
   content: "I just created this post",
@@ -17,7 +23,8 @@ const newPost = {
 } as Post;
 console.log(await client.Create(newPost));
 
-const req = { query : "Hello" } as FindPostRequest;
+console.info('Find Post')
+const req = { query : "Hey" } as FindPostRequest;
 for await (const reply of client.Find(req)) {
   console.log(reply);
 }
