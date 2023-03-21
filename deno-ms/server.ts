@@ -8,7 +8,7 @@ const port = 50051;
 const server = new GrpcServer();
 
 server.addService<Bitcoin>(protoFile, {
-  async SendPayment(request: BtcPaymentRequest) {
+  async SendPayment(request: BtcPaymentRequest): Promise<BtcPaymentResponse> {
     const message = `hello ${request.fromAddr || "stranger"}`;
     return { message } as BtcPaymentResponse;
   }

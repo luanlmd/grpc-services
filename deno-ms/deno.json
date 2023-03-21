@@ -1,0 +1,11 @@
+{
+    "tasks": {
+        "pay-gen": "deno run -A https://deno.land/x/grpc_basic@0.4.7/gen/dts.ts ../proto/payments.proto > payments.d.ts",
+        "post-gen": "deno run -A  https://deno.land/x/grpc_basic@0.4.7/gen/dts.ts ../proto/posts.proto > posts.d.ts",
+        "gen": "deno task pay-gen && deno task post-gen",
+        "server": "deno run --allow-read --allow-net --watch server.ts",
+        "client": "deno run --allow-read --allow-net client.ts",
+        "posts-server": "deno run --allow-read --allow-net --watch posts_service.ts",
+        "posts-client": "deno run --allow-read --allow-net posts_client.ts"
+    }
+}
