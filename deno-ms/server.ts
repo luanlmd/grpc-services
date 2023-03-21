@@ -14,7 +14,7 @@ server.addService<Bitcoin>(protoFile, {
   }
 });
 
-console.log(`gonna listen on ${port} port`);
+console.log(`Listening on port ${port}`);
 for await (const conn of Deno.listen({ port })) {
   server.handle(conn);
 }

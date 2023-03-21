@@ -2,31 +2,29 @@ syntax = "proto3";
 package payments;
 
 service PostsService {
-    rpc Create (CreatePostRequest) returns (StatusResponse);
-    rpc Find (FindPostRequest) returns (stream Post);
-    rpc List (Empty) returns (stream Post);
+  rpc Create(CreatePostRequest) returns (StatusResponse);
+  rpc Find(FindPostRequest) returns (stream Post);
+  rpc List(Empty) returns (stream Post);
 }
 
 message Post {
-    required uint32 id = 1;
-    string title = 2;
-    string content = 3;
-    string author = 4;
+  required uint32 id = 1;
+  string title = 2;
+  string content = 3;
+  string author = 4;
 }
 
 message CreatePostRequest {
-    string title = 1;
-    string content = 2;
-    string author = 3;
+  string title = 1;
+  string content = 2;
+  string author = 3;
 }
 
 message StatusResponse {
-    bool success = 1;
-    string message = 2;
+  bool success = 1;
+  string message = 2;
 }
 
-message FindPostRequest {
-    string query = 1;
-}
+message FindPostRequest { string query = 1; }
 
 message Empty {}

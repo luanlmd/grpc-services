@@ -1,5 +1,5 @@
 import { GrpcServer } from "https://deno.land/x/grpc_basic@0.4.7/server.ts";
-import { PostsService } from "./posts.d.ts";
+import { CreatePostRequest, Empty, FindPostRequest, Post, PostsService, StatusResponse } from "./posts.d.ts";
 
 const protoPath = new URL("../proto/posts.proto", import.meta.url);
 const protoFile = await Deno.readTextFile(protoPath);
@@ -9,7 +9,7 @@ const somePost = {
   title: "Hello world",
   content: "This is a test post",
   author: "John Doe",
-}
+} as Post;
 posts.push(somePost);
 const port = 50051;
 
@@ -29,16 +29,22 @@ server.addService<PostsService>(protoFile, {
     return response;
   },
 
-  async List(request: Empty): Promise<Post[]> {
-    return posts;
+  async *List(request: Empty): AsyncGenerator<Post> {
+    for (const post of posts) {
+      yield post;
+    }
   },
 
-  async Find(request: FindPostRequest): Promise<Post[]> {
-    return posts.find((post) => post.title.contains(request.query));
+  async *Find(request: FindPostRequest): AsyncGenerator<Post> {
+    // const filteredPosts = posts.find((post) => post?.title?.includes(request.query?? ''));
+    // for (const post of filteredPosts) {
+    //   yield post;
+    // }
+    for (const post of posts) {
+      yield post;
+    }
   }
 });
-
-server.addService<PostsService>(protoFile, {});
 
 console.log(`Listening on port ${port}`);
 for await (const conn of Deno.listen({ port })) {

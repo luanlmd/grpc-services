@@ -1,5 +1,5 @@
 import { getClient } from "https://deno.land/x/grpc_basic@0.4.6/client.ts";
-import { PostsService, Empty } from "./posts.d.ts";
+import { PostsService, FindPostRequest, Post } from "./posts.d.ts";
 
 const protoPath = new URL("../proto/posts.proto", import.meta.url);
 const protoFile = await Deno.readTextFile(protoPath);
@@ -10,8 +10,16 @@ const client = getClient<PostsService>({
   serviceName: "PostsService",
 });
 
-const req = { query : "Hello" } as FindPostRequest;
+const newPost = {
+  title: "Hey Title",
+  content: "I just created this post",
+  author: "Johnny Test"
+} as Post;
+console.log(await client.Create(newPost));
 
-console.log('asd', await client.Find(req));
+const req = { query : "Hello" } as FindPostRequest;
+for await (const reply of client.Find(req)) {
+  console.log(reply);
+}
 
 client.close();
