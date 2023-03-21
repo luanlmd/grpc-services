@@ -1,4 +1,4 @@
-import { getClient } from "https://deno.land/x/grpc_basic@0.4.6/client.ts";
+import { getClient } from "https://deno.land/x/grpc_basic@0.4.7/client.ts";
 import { Bitcoin, BtcPaymentRequest } from "./payments.d.ts";
 
 const protoPath = new URL("../proto/payments.proto", import.meta.url);
